@@ -1,0 +1,138 @@
+# Awtrix NG – LED matrix design for Home Assistant
+# Black background with an LED dot grid, pixel fonts, hard pixel corners,
+# glowing borders and a blinking "indicator LED" in the top-right corner (like the Ulanzi/AWTRIX clock).
+# Sections are color-coded automatically: Cyan / Green / Orange / Magenta.
+# Requires: card-mod (loaded via frontend: extra_module_url)
+#           + dashboard resource Google Fonts (Silkscreen / VT323).
+# Change the colors below under "Colors".
+
+Awtrix NG:
+  card-mod-theme: Awtrix NG
+
+  # ---------- Colors (RGB without brackets) ----------
+  awtrix-color-1: '0, 220, 255'     # Cyan
+  awtrix-color-2: '57, 255, 90'     # Green
+  awtrix-color-3: '255, 160, 0'     # Orange / Amber
+  awtrix-color-4: '255, 50, 200'    # Magenta
+  awtrix-accent-rgb: '0, 220, 255'  # Default (popups, Safari/iOS/Firefox)
+
+  # ---------- Base colors ----------
+  primary-color: 'rgb(0, 220, 255)'
+  accent-color: 'rgb(255, 160, 0)'
+  dark-primary-color: 'rgb(0, 160, 190)'
+  light-primary-color: 'rgb(128, 238, 255)'
+  primary-text-color: '#f2f2f2'
+  secondary-text-color: 'rgba(235, 235, 235, 0.70)'
+  text-primary-color: '#000000'
+  disabled-text-color: 'rgba(235, 235, 235, 0.35)'
+  divider-color: 'rgba(0, 220, 255, 0.25)'
+  state-icon-color: 'rgb(0, 220, 255)'
+  state-active-color: 'rgb(57, 255, 90)'
+  primary-background-color: '#000000'
+  secondary-background-color: '#080808'
+  card-background-color: '#050505'
+  app-header-background-color: 'rgba(0, 0, 0, 0.92)'
+  app-header-text-color: 'rgb(0, 220, 255)'
+  sidebar-background-color: '#000000'
+  sidebar-text-color: 'rgba(235, 235, 235, 0.75)'
+  sidebar-icon-color: 'rgba(0, 220, 255, 0.75)'
+  sidebar-selected-icon-color: 'rgb(255, 160, 0)'
+  sidebar-selected-text-color: 'rgb(255, 160, 0)'
+  switch-checked-color: 'rgb(57, 255, 90)'
+  switch-unchecked-color: 'rgb(90, 90, 90)'
+  scrollbar-thumb-color: 'rgba(0, 220, 255, 0.35)'
+  paper-font-common-base_-_font-family: '"VT323", "Silkscreen", monospace'
+  paper-font-body1_-_font-family: '"VT323", monospace'
+  mdc-typography-font-family: '"VT323", monospace'
+  ha-font-family-body: '"VT323", monospace'
+  ha-font-family-heading: '"Silkscreen", "VT323", monospace'
+
+  # Background: black LED dot grid (8x8 px cells) with a subtle color glow
+  lovelace-background: 'radial-gradient(circle at center, rgba(255,255,255,0.10) 1.3px, transparent 1.8px) 0 0 / 8px 8px fixed, radial-gradient(ellipse at 50% 130%, rgba(0,220,255,0.18), transparent 60%) fixed, radial-gradient(ellipse at 50% -30%, rgba(255,50,200,0.12), transparent 55%) fixed, #000000'
+
+  # ---------- Cards (native variables, fallback) ----------
+  ha-card-background: 'radial-gradient(circle at center, rgba(255,255,255,0.07) 1px, transparent 1.5px) 0 0 / 6px 6px, #050505'
+  ha-card-border-radius: '0px'
+  ha-card-border-width: '2px'
+  ha-card-border-color: 'rgba(0, 220, 255, 0.9)'
+  ha-card-box-shadow: '0 0 10px rgba(0,220,255,0.35), inset 0 0 12px rgba(0,220,255,0.12)'
+
+  # ---------- Cards (card-mod) ----------
+  card-mod-card: |
+    /* Automatic section colors (Chrome/Edge/Android app) */
+    :host-context(.section:nth-child(4n+1)), :host-context(.column:nth-child(4n+1)) { --awtrix-sec-rgb: var(--awtrix-color-1); }
+    :host-context(.section:nth-child(4n+2)), :host-context(.column:nth-child(4n+2)) { --awtrix-sec-rgb: var(--awtrix-color-2); }
+    :host-context(.section:nth-child(4n+3)), :host-context(.column:nth-child(4n+3)) { --awtrix-sec-rgb: var(--awtrix-color-3); }
+    :host-context(.section:nth-child(4n+4)), :host-context(.column:nth-child(4n+4)) { --awtrix-sec-rgb: var(--awtrix-color-4); }
+    ha-card {
+      --ax: var(--awtrix-sec-rgb, var(--awtrix-accent-rgb));
+      --ha-card-border-color: rgba(var(--ax), 0.9);
+      --ha-card-box-shadow: 0 0 10px rgba(var(--ax), 0.35), inset 0 0 12px rgba(var(--ax), 0.12);
+      border: 2px solid rgba(var(--ax), 0.9);
+      border-radius: 0;
+      box-shadow: 0 0 10px rgba(var(--ax), 0.35), inset 0 0 12px rgba(var(--ax), 0.12);
+      /* Pixel corners: stepped 4 px staircase */
+      clip-path: polygon(
+        0 8px, 4px 8px, 4px 4px, 8px 4px, 8px 0,
+        calc(100% - 8px) 0, calc(100% - 8px) 4px, calc(100% - 4px) 4px, calc(100% - 4px) 8px, 100% 8px,
+        100% calc(100% - 8px), calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px), calc(100% - 8px) 100%,
+        8px 100%, 8px calc(100% - 4px), 4px calc(100% - 4px), 4px calc(100% - 8px), 0 calc(100% - 8px)
+      );
+      font-family: "VT323", "Silkscreen", monospace;
+      font-size: 1.15em;
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: none;
+    }
+    /* Indicator LED in the top-right corner (like AWTRIX): blinking 4x4 pixel */
+    ha-card::after {
+      content: "";
+      position: absolute;
+      top: 6px;
+      right: 14px;
+      width: 4px;
+      height: 4px;
+      background: rgb(var(--ax));
+      box-shadow: 0 0 6px rgb(var(--ax));
+      animation: awtrixled 2s steps(1) infinite;
+      pointer-events: none;
+      z-index: 2;
+    }
+    @keyframes awtrixled { 0%, 60% { opacity: 1; } 61%, 100% { opacity: 0.12; } }
+
+    /* Headings (heading card): pixel font, ticker look */
+    :host(hui-heading-card) ha-card {
+      --primary-text-color: rgb(var(--ax));
+      --secondary-text-color: rgba(var(--ax), 0.7);
+      font-family: "Silkscreen", "VT323", monospace;
+      background: none;
+      box-shadow: none;
+      border: none;
+      border-bottom: 2px dotted rgba(var(--ax), 0.7);
+      clip-path: none;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-shadow: 0 0 6px rgba(var(--ax), 0.9);
+    }
+    /* Text cards (e.g. page titles) without a box */
+    ha-card.text-only,
+    :host(.text-only) ha-card {
+      font-family: "Silkscreen", "VT323", monospace;
+      background: none;
+      box-shadow: none;
+      border: none;
+      clip-path: none;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      text-shadow: 0 0 8px rgba(var(--awtrix-accent-rgb), 0.9);
+    }
+    :host(hui-heading-card) ha-card::after,
+    ha-card.text-only::after,
+    :host(.text-only) ha-card::after {
+      content: none;
+    }
+
+  modes:
+    dark:
+      app-theme-color: '#000000'
