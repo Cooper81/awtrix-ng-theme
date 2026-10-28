@@ -10,6 +10,10 @@ A dark LED-matrix theme inspired by the AWTRIX / Ulanzi pixel clock.
 
 No `card_mod` is needed inside your dashboards; the theme styles all cards.
 
+![AWTRIX NG](https://raw.githubusercontent.com/Cooper81/awtrix-ng-theme/main/images/awtrix-ng.png)
+
+*Preview: cropped section of a real dashboard.*
+
 ## Installation via HACS
 
 1. **HACS → ⋮ → Custom repositories**, Repository: `https://github.com/Cooper81/awtrix-ng-theme`, Type: **Theme** → Add
